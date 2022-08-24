@@ -1,0 +1,122 @@
+local ImageTest = Instance.new('ScreenGui')
+local BG = Instance.new('Frame')
+local Image3 = Instance.new('ImageLabel')
+local Image2 = Instance.new('ImageLabel')
+local Image1 = Instance.new('ImageLabel')
+local Image4 = Instance.new('VideoFrame')
+local Exit = Instance.new('TextButton')
+local UICorner = Instance.new('UICorner')
+
+ImageTest.Name = 'ImageTest'
+ImageTest.Parent = game.Players.LocalPlayer:WaitForChild('PlayerGui')
+ImageTest.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+BG.Name = 'BG'
+BG.Parent = ImageTest
+BG.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+BG.Position = UDim2.new(0.339603961, 0, 0.1813602, 0)
+BG.Size = UDim2.new(0.320792079, 0, 0.705289662, 0)
+
+Image4.Name = 'Image4'
+Image4.Parent = BG
+Image4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Image4.BackgroundTransparency = 1.000
+Image4.BorderSizePixel = 0
+Image4.Position = UDim2.new(0.525911212, 0, 0.535064936, 0)
+Image4.Size = UDim2.new(0.438271612, 0, 0.41883117, 0)
+
+Image3.Name = 'Image3'
+Image3.Parent = BG
+Image3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Image3.BackgroundTransparency = 1.000
+Image3.BorderSizePixel = 0
+Image3.Position = UDim2.new(0.525911212, 0, 0.0758635402, 0)
+Image3.Size = UDim2.new(0.438271612, 0, 0.41883117, 0)
+Image3.Image = 'rbxassetid://2328530000'
+
+Image2.Name = 'Image2'
+Image2.Parent = BG
+Image2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Image2.BackgroundTransparency = 1.000
+Image2.BorderSizePixel = 0
+Image2.Position = UDim2.new(0.0303275026, 0, 0.536577821, 0)
+Image2.Size = UDim2.new(0.438271612, 0, 0.41883117, 0)
+Image2.Image = 'rbxassetid://2328530000'
+
+Image1.Name = 'Image1'
+Image1.Parent = BG
+Image1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Image1.BackgroundTransparency = 1.000
+Image1.BorderSizePixel = 0
+Image1.Position = UDim2.new(0.0303275026, 0, 0.077922076, 0)
+Image1.Size = UDim2.new(0.438271612, 0, 0.41883117, 0)
+Image1.Image = 'rbxassetid://2328530000'
+
+Exit.Name = 'Exit'
+Exit.Parent = BG
+Exit.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+Exit.BorderSizePixel = 0
+Exit.Position = UDim2.new(0.898999989, 0, 0.0130000003, 0)
+Exit.Size = UDim2.new(0.0500000007, 0, 0.0500000007, 0)
+Exit.Font = Enum.Font.Gotham
+Exit.Text = 'X'
+Exit.TextColor3 = Color3.fromRGB(255, 0, 0)
+Exit.TextSize = 14.000
+
+UICorner.CornerRadius = UDim.new(0.0199999996, 0)
+UICorner.Parent = BG
+
+local function getsynassetfromurl(URL)
+    local getsynasset, request = getsynasset or getcustomasset or error('invalid attempt to \'getsynassetfromurl\' (custom asset retrieval function expected)'), (syn and syn.request) or (http and http.request) or (request) or error('invalid attempt to \'getsynassetfromurl\' (http request function expected)')
+    local Extension, Types, URL = '', {'.png', '.webm'}, assert(tostring(type(URL)) == 'string', 'invalid argument #1 to \'getsynassetfromurl\' (string [URL] expected, got '..tostring(type(URL))..')') and URL or nil
+    local Response, TempFile = request({
+        Url = URL,
+        Method = 'GET'
+    })
+
+    if Response.StatusCode == 200 then
+        Extension = Response.Body:sub(2, 4) == 'PNG' and '.png' or Response.Body:sub(25, 28) == 'webm' and '.webm' or nil
+    end
+
+    if Response.StatusCode == 200 and (Extension and table.find(Types, Extension)) then
+        for i = 1, 15 do
+            local Letter, Lower = string.char(math.random(65, 90)), math.random(1, 5) == 3 and true or false
+            TempFile = (not TempFile and '' .. (Lower and Letter:lower() or Letter)) or (TempFile .. (Lower and Letter:lower() or Letter)) or nil
+        end
+        
+        writefile(TempFile..Extension, Response.Body)
+        
+        task.spawn(function()
+            wait(10)
+            
+            if isfile(TempFile..Extension) then
+                delfile(TempFile..Extension)
+            end
+        end)
+        
+        return getsynasset(TempFile..Extension)
+    elseif Response.StatusCode ~= 200 or not Extension then
+        warn('unexpected \'getsynassetfromurl\' Status Error: ' .. Response.StatusMessage .. ' ('..URL..')')
+    elseif not (Extension) then
+        warn('unexpected \'getsynassetfromurl\' Error: (PNG or webm file expected)')
+    end
+end
+
+local SynAssetIds = {
+    Image1 = getsynassetfromurl('https://cdn.discordapp.com/attachments/926224900295884850/1011838829973471313/gMnQZgP.png'),
+    Image2 = getsynassetfromurl('https://cdn.discordapp.com/attachments/926224900295884850/1011838829973471313/gMnQZgP.png'),
+    Image3 = getsynassetfromurl('https://cdn.discordapp.com/attachments/926224900295884850/1011838829973471313/gMnQZgP.png'),
+}
+
+for K, V in next, SynAssetIds do
+    if K ~= 'Image4' then
+        BG[K].Image = V
+    else
+        BG[K].Video = V
+        BG[K].Playing = true
+    end
+end
+
+Exit.MouseButton1Click:Connect(function()
+    ImageTest:Destroy()
+end)
