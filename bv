@@ -1,7 +1,0 @@
-local args = {
-    [1] = game:GetService("Players").LocalPlayer.Character.AK74M,
-    [2] = game:GetService("Players").NICKTYPA.Character.Humanoid,
-    [3] = game:GetService("Workspace").TENSAMNICK.HumanoidRootPart.Position,
-    [4] = 3,
-
-game:GetService("ReplicatedStorage").ACS_Engine.Events.Damage:InvokeServer(unpack(args))
