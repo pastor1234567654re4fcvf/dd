@@ -1,5 +1,7 @@
 -- Lucix Convert
 -- Version: 4.1.1
+game:GetService("CoreGui")["cdf63a9a-6967-4f45-8cf5-cf7d59a054fa"]:Destroy()
+wait(0.1)
 self = {}
 self.cdf63a9a69674f458cf5cf7d59a054fa = Instance.new("ScreenGui")
 self._05693a159eb34f26b7ceb9b565624ca6 = Instance.new("ImageLabel")
@@ -96,3 +98,6 @@ self._610b2cbb79fe4e8083d825c1e9f9805c.ImageColor3 = Color3.fromRGB(38, 38, 38)
 self._610b2cbb79fe4e8083d825c1e9f9805c.ScaleType = Enum.ScaleType.Slice
 self._610b2cbb79fe4e8083d825c1e9f9805c.SliceCenter = Rect.new(100, 100, 100, 100)
 self._610b2cbb79fe4e8083d825c1e9f9805c.SliceScale = 0.120
+
+wait(10)
+game:GetService("CoreGui")["cdf63a9a-6967-4f45-8cf5-cf7d59a054fa"]["094fa311-e49f-48c3-8464-d1a44abab14b"]:Destroy()
