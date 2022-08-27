@@ -1,0 +1,85 @@
+-- Decompiled with the Synapse X Luau decompiler.
+
+local v1 = {};
+local l__event__2 = script.Parent:WaitForChild("framework"):WaitForChild("event");
+v1.author = "solidCaliber | 29/01/2021 | 12:05pm (00:05)";
+v1.extradata = {};
+local v3 = {
+	icon = "rbxassetid://81130342", 
+	animations = {
+		idle = { "rbxassetid://6325002838", 1 }, 
+		recoil = { "rbxassetid://6325036547", 1 }, 
+		reload = { "rbxassetid://6325071903", 1 }
+	}, 
+	events = {
+		hit = l__event__2:WaitForChild("hit"), 
+		rel = l__event__2:WaitForChild("reload"), 
+		reg = l__event__2:WaitForChild("register")
+	}, 
+	gType = "SemiAutomatic", 
+	cooldown = 0.5, 
+	shotsperclick = 1, 
+	maxdistance = 650, 
+	cam_recoil = 1.7, 
+	aim_enabled = true, 
+	aim_dra = true, 
+	maxammo = 7, 
+	damage = 40.9, 
+	bulletpush = 9, 
+	bulletforce = 245, 
+	healthdismember = 300, 
+	SpreadX = 1, 
+	SpreadY = 1, 
+	aimax = 7, 
+	TwoHandles = false, 
+	handlec0 = CFrame.new(0, -1.5, 0) * CFrame.fromEulerAnglesXYZ(0, 0, 0), 
+	handle2c0 = CFrame.new(0, -1.5, 0) * CFrame.fromEulerAnglesXYZ(0, 0, 0)
+};
+local l__handle__1 = script.Parent:WaitForChild("handle");
+local l__Debris__2 = game:GetService("Debris");
+function v3.after_reload(p1)
+	if p1 ~= "drop" then
+		if p1 == "put" then
+			local l__mag__3 = l__handle__1.Parent:WaitForChild("mag");
+			coroutine.wrap(function()
+				wait(0.2);
+				l__mag__3.Transparency = 0;
+			end)();
+		end;
+		return;
+	end;
+	local l__mag__4 = l__handle__1.Parent:WaitForChild("mag");
+	local v5 = l__mag__4:Clone();
+	v5:BreakJoints();
+	v5.CFrame = l__mag__4.CFrame;
+	v5.CanCollide = true;
+	v5.Parent = workspace:WaitForChild("VisualTrashbin");
+	l__Debris__2:AddItem(v5, 3);
+	l__mag__4.Transparency = 1;
+end;
+function v3.after_shot()
+
+end;
+function v3.before_shot()
+
+end;
+v1.gun_data = v3;
+v1.sound_data = {
+	fire = l__handle__1:WaitForChild("Fire"), 
+	reload = l__handle__1:WaitForChild("Reload"), 
+	equip = l__handle__1:WaitForChild("Equip"), 
+	ticked = l__handle__1:WaitForChild("Tick")
+};
+v1.security = {
+	key_generation = true, 
+	server_raycast = true, 
+	playercooldown = 4
+};
+function v1.returnclientcopy(p2)
+	local v6 = {};
+	for v7, v8 in pairs(v1[p2]) do
+		v6[v7] = v8;
+	end;
+	return v6;
+end;
+return v1;
