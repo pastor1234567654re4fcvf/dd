@@ -1,0 +1,11 @@
+-- w miare legit ustawienie że nikt się nie doczepi raczej ＞﹏＜
+local Players = workspace.Players
+ 
+local OldIndex = nil
+ 
+OldIndex = hookmetamethod(Players, "__index"    , function(Self, Key)
+    if not checkcaller() and tostring(Self) == "Torso" and Key == "Size" then -- Torso lub Head Lub Body nie jestem pew
+        return Vector3.new(3, 3, 3)
+    end
+    return OldIndex(Self, Key)
+end)
